@@ -6,7 +6,13 @@
 \alias{getG.lme}
 \alias{getG.gls}
 \alias{getR}
+\alias{getR.default}
+\alias{getR.lme}
+\alias{getR.gls}
 \alias{getV}
+\alias{getV.default}
+\alias{getV.lme}
+\alias{getV.gls}
 \title{Extract R, G or V matrix in a mixed or GLS model}
 \usage{
 getG(fit, ...)
@@ -15,11 +21,23 @@ getG(fit, ...)
 
 \method{getG}{lme}(fit, ...)
 
-\method{getG}{gls}(git, ...)
+\method{getG}{gls}(fit, ...)
 
 getR(fit, ...)
 
+\method{getR}{default}(fit, ...)
+
+\method{getR}{lme}(fit, ...)
+
+\method{getR}{gls}(fit, ...)
+
 getV(fit, ...)
+
+\method{getV}{default}(fit, ...)
+
+\method{getV}{lme}(fit, ...)
+
+\method{getV}{gls}(fit, ...)
 }
 \arguments{
 \item{fit}{model created with \code{\link{lme}} or 
@@ -32,13 +50,16 @@ first cluster is returned.}
 }
 \value{
 For \code{\link{lme}} objects, \code{getG} returns
-the between-cluster variance of random effects, \code{getV},
-and \code{getR} returns a list with the within-cluster marginal
-variance and the within-cluster conditional variance respectively
-for the the clusters listed in \code{individuals}. If 
-\code{individuals} is missing, the variance of the first
-cluster is returned. For 
-\code{\link{gls}} objects ....
+   the between-cluster variance of random effects, \code{getV},
+   and \code{getR} returns a list with the within-cluster marginal
+   variance and the within-cluster conditional variance respectively
+   for the the clusters listed in \code{individuals}. If 
+   \code{individuals} is missing, the variance of the first
+   cluster is returned. For 
+   \code{\link{gls}} objects all functions return the same thing but
+   uninformatively if correlation is clustered and if weights
+   produce differenct variances in the corresponding positions in 
+   different clusters.
 }
 \description{
 These functions call \code{\link{getVarCov}} in the 
@@ -49,9 +70,21 @@ that are easy to remember.
 \itemize{
 \item \code{default}: default method
 
-\item \code{lme}: default method
+\item \code{lme}: lme method
 
-\item \code{gls}: default method
+\item \code{gls}: gls method
+
+\item \code{default}: default method
+
+\item \code{lme}: lme method
+
+\item \code{gls}: gls method
+
+\item \code{default}: gls method
+
+\item \code{lme}: lme method
+
+\item \code{gls}: gls method
 }}
 
 \examples{

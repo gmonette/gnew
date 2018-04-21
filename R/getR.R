@@ -10,17 +10,20 @@
 #' @param fit model created with \code{\link{lme}} or 
 #' \code{\link{gls}}
 #' @param individuals for \code{getR} or \code{getV} with
-#'  \code{\link{lme}} objects, select the clusters for which
-#'  variances are returned. If not specified, the variance of the
-#'  first cluster is returned.
+#'    \code{\link{lme}} objects, select the clusters for which
+#'    variances are returned. If not specified, the variance of the
+#'    first cluster is returned.
 #' @return For \code{\link{lme}} objects, \code{getG} returns
-#' the between-cluster variance of random effects, \code{getV},
-#' and \code{getR} returns a list with the within-cluster marginal
-#' variance and the within-cluster conditional variance respectively
-#' for the the clusters listed in \code{individuals}. If 
-#' \code{individuals} is missing, the variance of the first
-#' cluster is returned. For 
-#' \code{\link{gls}} objects ....
+#'    the between-cluster variance of random effects, \code{getV},
+#'    and \code{getR} returns a list with the within-cluster marginal
+#'    variance and the within-cluster conditional variance respectively
+#'    for the the clusters listed in \code{individuals}. If 
+#'    \code{individuals} is missing, the variance of the first
+#'    cluster is returned. For 
+#'    \code{\link{gls}} objects all functions return the same thing but
+#'    uninformatively if correlation is clustered and if weights
+#'    produce differenct variances in the corresponding positions in 
+#'    different clusters. 
 #' 
 #' @examples
 #' library(spida2)
@@ -92,28 +95,42 @@ getG <- function(fit,...) UseMethod('getG')
 #' @describeIn getG default method
 #' @export
 getG.default <- function(fit,...) "Unknown class"
-#' @describeIn getG default method
+#' @describeIn getG lme method
 #' @export
 getG.lme <- function(fit,...) getVarCov(fit,...)
-#' @describeIn getG default method
+#' @describeIn getG gls method
 #' @export
-getG.gls <- function(git,...) getVarCov(fit,...)
+getG.gls <- function(fit,...) getVarCov(fit,...)
 #' @rdname getG
 #' @export
 getR <- function(fit,...) UseMethod('getR')
+#' @describeIn getG default method
 #' @export
 getR.default <- function(fit,...) "Unknown class"
+#' @describeIn getG lme method
 #' @export
 getR.lme <- function(fit, ...) {
+  getVarCov(fit, type = 'conditional', ...)
+}
+#' @describeIn getG gls method
+#' @export
+getR.gls <- function(fit, ...) {
   getVarCov(fit, type = 'conditional', ...)
 }
 #' @rdname getG
 #' @export
 getV <- function(fit,...) UseMethod('getV')
+#' @describeIn getG gls method
 #' @export
 getV.default <- function(fit, ...) "Unknown class"
+#' @describeIn getG lme method
 #' @export
 getV.lme <- function(fit, ...) {
+  getVarCov(fit, type = 'marginal', ...)
+}
+#' @describeIn getG gls method
+#' @export
+getV.gls <- function(fit, ...) {
   getVarCov(fit, type = 'marginal', ...)
 }
 
@@ -150,30 +167,13 @@ summary(fit)
 getVarCov(fit)
 getG(fit)
 getVarCov(fit, individuals = '2')
-getVarCov(fit, individuals = '2', type = 'conditional') %>% 
+getG(fit, ind = '2')
+getR(fit) %>% 
   .[[1]] %>% 
   diag
-getVarCov(fit,  type = 'conditional')%>% 
+getR(fit)%>% 
   .[[1]] %>% 
   diag
-
-
-?VarCorr
-getG <- function(x) UseMethod('getG')
-getG.default <- function(x,...) "Unknown class"
-getG.lme <- function(x,...) getVarCov(x,...)
-
-getR <- function(x) UseMethod('getR')
-getR.default <- function(x, ...) "Unknown class"
-getR.lme <- function(x, ...) {
-  getVarCov(x, type = 'conditional', ...)
-}
-
-getV <- function(x) UseMethod('getV')
-getV.default <- function(x, ...) "Unknown class"
-getV.lme <- function(x, ...) {
-  getVarCov(x, type = 'marginal', ...)
-}
 
 getG(fit)
 getR(fit)[[1]]
@@ -189,9 +189,7 @@ Z %*% getG(fit) %*% t(Z)
 getV(fit)[[1]]
 getR(fit)[[1]]
 sigma(fit)
-getVarCov(fit, type = 'random.effects')
-getVarCov(fit)
-Z %*% getG(fit) %*% t(Z)
+getG(fit)
 getV(fit)[[1]] - Z %*% getG(fit) %*% t(Z) - getR(fit)[[1]]
 
 getG(fit0)
@@ -200,5 +198,11 @@ Z %*% getG(fit0) %*% t(Z) %>% svd %>% .$d
 getR(fit0)
 sigma(fit0)
 getV(fit0)
-Z %*% getG(fit0) %*% t(Z) + getR(fit0)[[1]]
+
+getG(fitgls)
+
+getVarCov(fitgls) 
+getG(fitgls)
+getR(fitgls)
+getV(fitgls, individuals = '5')
 }
