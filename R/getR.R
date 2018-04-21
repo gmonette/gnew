@@ -25,6 +25,7 @@
 #' @examples
 #' library(spida2)
 #' library(nlme)
+#' library(gnew)
 #' data <- expand.grid( Xdev = c(-3,-2,-1,0,1,2,3), id = 1:5 )
 #'  
 #' set.seed(12345)
@@ -45,7 +46,11 @@
 #'            weights = varConstPower(form = ~ fitted(.)),
 #'            correlation = corAR1(form = ~ 1 | id),
 #'            control = list(returnObject = TRUE))
-#' 
+#' fitgls <- gls(Y ~ X, data, weights = varConstPower(form = ~ fitted(.)),
+#'            correlation = corAR1(form = ~ 1|id),
+#'            control = list(returnObject = TRUE, maxIter= 1000, 
+#'            verbose = TRUE, msMaxIter = 1000,
+#'                msVerbose=TRUE))
 #' summary(fit)
 #' getVarCov(fit)
 #' getVarCov(fit, individuals = '2')
@@ -55,24 +60,6 @@
 #' getVarCov(fit,  type = 'conditional')%>% 
 #'   .[[1]] %>% 
 #'   diag
-#' 
-#' 
-#' ?VarCorr
-#' getG <- function(x) UseMethod('getG')
-#' getG.default <- function(x,...) "Unknown class"
-#' getG.lme <- function(x,...) getVarCov(x,...)
-#' 
-#' getR <- function(x) UseMethod('getR')
-#' getR.default <- function(x, ...) "Unknown class"
-#' getR.lme <- function(x, ...) {
-#'   getVarCov(x, type = 'conditional', ...)
-#' }
-#' 
-#' getV <- function(x) UseMethod('getV')
-#' getV.default <- function(x, ...) "Unknown class"
-#' getV.lme <- function(x, ...) {
-#'   getVarCov(x, type = 'marginal', ...)
-#' }
 #' 
 #' getG(fit)
 #' getR(fit)[[1]]
@@ -102,20 +89,30 @@
 #' Z %*% getG(fit0) %*% t(Z) + getR(fit0)[[1]]
 #' @export
 getG <- function(fit,...) UseMethod('getG')
+#' @describeIn getG default method
+#' @export
 getG.default <- function(fit,...) "Unknown class"
+#' @describeIn getG default method
+#' @export
 getG.lme <- function(fit,...) getVarCov(fit,...)
+#' @describeIn getG default method
+#' @export
 getG.gls <- function(git,...) getVarCov(fit,...)
 #' @rdname getG
 #' @export
 getR <- function(fit,...) UseMethod('getR')
+#' @export
 getR.default <- function(fit,...) "Unknown class"
+#' @export
 getR.lme <- function(fit, ...) {
   getVarCov(fit, type = 'conditional', ...)
 }
 #' @rdname getG
 #' @export
 getV <- function(fit,...) UseMethod('getV')
+#' @export
 getV.default <- function(fit, ...) "Unknown class"
+#' @export
 getV.lme <- function(fit, ...) {
   getVarCov(fit, type = 'marginal', ...)
 }
@@ -123,6 +120,7 @@ getV.lme <- function(fit, ...) {
 if(FALSE) {
 library(spida2)
 library(nlme)
+  library(gnew)
 data <- expand.grid( Xdev = c(-3,-2,-1,0,1,2,3), id = 1:5 )
 
 set.seed(12345)
@@ -139,13 +137,18 @@ xyplot(Y ~ X, data, groups = id)
 fit0 <- lme(Y ~ X, data,
             random = ~ 1+ X |id)
 fit <- lme(Y ~ X, data, 
-          random = ~ 1 + X | id,
-          weights = varConstPower(form = ~ fitted(.)),
-          correlation = corAR1(form = ~ 1 | id),
-          control = list(returnObject = TRUE))
+           random = ~ 1 + X | id,
+           weights = varConstPower(form = ~ fitted(.)),
+           correlation = corAR1(form = ~ 1 | id),
+           control = list(returnObject = TRUE))
+fitgls <- gls(Y ~ X, data, 
+           weights = varConstPower(form = ~ fitted(.)),
+           correlation = corAR1(form = ~ 1 | id),
+           control = list(returnObject = TRUE, maxIter = 1000))
 
 summary(fit)
 getVarCov(fit)
+getG(fit)
 getVarCov(fit, individuals = '2')
 getVarCov(fit, individuals = '2', type = 'conditional') %>% 
   .[[1]] %>% 

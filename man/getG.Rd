@@ -2,11 +2,20 @@
 % Please edit documentation in R/getR.R
 \name{getG}
 \alias{getG}
+\alias{getG.default}
+\alias{getG.lme}
+\alias{getG.gls}
 \alias{getR}
 \alias{getV}
 \title{Extract R, G or V matrix in a mixed or GLS model}
 \usage{
 getG(fit, ...)
+
+\method{getG}{default}(fit, ...)
+
+\method{getG}{lme}(fit, ...)
+
+\method{getG}{gls}(git, ...)
 
 getR(fit, ...)
 
@@ -36,9 +45,19 @@ These functions call \code{\link{getVarCov}} in the
 \pkg{nlme} package. They are intended to have names and functions
 that are easy to remember.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{default}: default method
+
+\item \code{lme}: default method
+
+\item \code{gls}: default method
+}}
+
 \examples{
 library(spida2)
 library(nlme)
+library(gnew)
 data <- expand.grid( Xdev = c(-3,-2,-1,0,1,2,3), id = 1:5 )
  
 set.seed(12345)
@@ -59,7 +78,11 @@ fit <- lme(Y ~ X, data,
            weights = varConstPower(form = ~ fitted(.)),
            correlation = corAR1(form = ~ 1 | id),
            control = list(returnObject = TRUE))
-
+fitgls <- gls(Y ~ X, data, weights = varConstPower(form = ~ fitted(.)),
+           correlation = corAR1(form = ~ 1|id),
+           control = list(returnObject = TRUE, maxIter= 1000, 
+           verbose = TRUE, msMaxIter = 1000,
+               msVerbose=TRUE))
 summary(fit)
 getVarCov(fit)
 getVarCov(fit, individuals = '2')
@@ -69,24 +92,6 @@ getVarCov(fit, individuals = '2', type = 'conditional') \%>\%
 getVarCov(fit,  type = 'conditional')\%>\% 
   .[[1]] \%>\% 
   diag
-
-
-?VarCorr
-getG <- function(x) UseMethod('getG')
-getG.default <- function(x,...) "Unknown class"
-getG.lme <- function(x,...) getVarCov(x,...)
-
-getR <- function(x) UseMethod('getR')
-getR.default <- function(x, ...) "Unknown class"
-getR.lme <- function(x, ...) {
-  getVarCov(x, type = 'conditional', ...)
-}
-
-getV <- function(x) UseMethod('getV')
-getV.default <- function(x, ...) "Unknown class"
-getV.lme <- function(x, ...) {
-  getVarCov(x, type = 'marginal', ...)
-}
 
 getG(fit)
 getR(fit)[[1]]
