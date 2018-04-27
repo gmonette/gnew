@@ -19,12 +19,11 @@
 #'    variance and the within-cluster conditional variance respectively
 #'    for the the clusters listed in \code{individuals}. If 
 #'    \code{individuals} is missing, the variance of the first
-#'    cluster is returned. For 
+#'    cluster is returned. ISSUE: For 
 #'    \code{\link{gls}} objects all functions return the same thing but
 #'    uninformatively if correlation is clustered and if weights
 #'    produce differenct variances in the corresponding positions in 
 #'    different clusters. 
-#' 
 #' @examples
 #' library(spida2)
 #' library(nlme)
@@ -205,4 +204,37 @@ getVarCov(fitgls)
 getG(fitgls)
 getR(fitgls)
 getV(fitgls, individuals = '5')
+
+# Non-linear
+fitnl <- nlme( PIQ ~ b0 + b1*exp(-a*DAYSPC),
+      data = iq,
+      fixed = list( b0 ~ 1+sqrt( DCOMA ),
+                    b1 ~ 1,
+                    a ~ 1),
+      random = list( ID = b0 ~ 1),
+      start = list( fixed = c(
+        100, 0,-20.,.05)),
+      control = list( maxIter = 100,
+                      returnObject = TRUE),
+      verbose = T)
+summary(fitnl)
+# Error message 'getVarCov' not implemented for nlme objects
+library(MASS)
+fitpql <- fit <- glmmPQL(Y ~ X, data, 
+                     random = ~ 1 + X | id,
+                     family = gaussian,
+                     # weights = varConstPower(form = ~ fitted(.)),
+                     # NOTE: weights expects a variable in 'data'
+                     # probably because the lme weight mechanism
+                     # is used to implement PQL
+                     correlation = corAR1(form = ~ 1 | id),
+                     control = list(returnObject = TRUE))
+getG(fitpql)
+getR(fitpql)
+#
+# Does pdIdent work?
+
+
+
 }
+

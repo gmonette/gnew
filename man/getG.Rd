@@ -55,7 +55,7 @@ For \code{\link{lme}} objects, \code{getG} returns
    variance and the within-cluster conditional variance respectively
    for the the clusters listed in \code{individuals}. If 
    \code{individuals} is missing, the variance of the first
-   cluster is returned. For 
+   cluster is returned. ISSUE: For 
    \code{\link{gls}} objects all functions return the same thing but
    uninformatively if correlation is clustered and if weights
    produce differenct variances in the corresponding positions in 
