@@ -1,0 +1,102 @@
+---
+title: "Basics of Regression from Geometry"
+author: "Georges Monette"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+  vignette: >
+    %\VignetteIndexEntry{Basics of Regression from Geometry}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+```{r eval=FALSE,echo=FALSE}
+    toc: true
+    toc_float: true
+rmarkdown::html_vignette
+```
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "  "
+)
+  library(gnew)
+  library(spida2)
+```
+
+Some basic theorems
+
+## The Projection Theorem
+
+THis says that if we express $Y$ as a sum of two orthogonal components, then we have expressed it as 
+$\hat{Y} + e$.
+
+__Theorem:__ _Projection theorem:_ Let $X$ be a matrix of full column rank and let
+$$Y = Xb + e$$
+where $e$ is orthogonal to $\mathcal{L}(X)$.
+
+Then $b$ is the vector of estimated coefficients for the least-squares regression of $Y$ on $X$, $e$ is the residual, $||e||^2 = e'e$$ is the residual of the regression and the sum of squares for error, $SSE$, is 
+equal to $e'e$.
+
+_Proof:_ 
+
+$$\begin{aligned}
+\hat{\beta}  &= (X'X)^{-1}X'Y \\
+     &= (X'X)^{-1}X'Xb + (X'X)^{-1}X' e\\
+     &= b + (X'X)^{-1}0 \quad \textrm{    since } e \perp \mathcal{L}(X)\\
+     &= b 
+\end{aligned}$$
+and thus $e = Y - X\hat{\beta}$. _QED_
+
+Our next theorem is the "Added Variable Plot Theorem" more formally known as the Frisch-Waugh-Lovell Theorem. It took some decades to prove it but here's an easy proof.
+
+The AVP for the regression of $Y$ on $X_1$ controlling for $X_2$ is the regression of the
+residual of $Y$ regressed on $X_2, on the residuals of the regression of $X_1$ regressed on
+$X_2$.
+
+__Theorem:__ Consider the regression of $Y$ on two blocks of predictors given by full column
+rank matrices $X_1$ and $X_2$, where, moreover, the partitioned matrix, $[X_1 X_2]$ is of full rank.
+Suppose 
+$$Y = X_1 \hat{\beta_1} + X_2 \hat{\beta_2} + e$$
+Then the residual of $Y$ regressed on $X_2$ regressed on the residual of $X_1$ on $X_2$
+has regression coefficient $\hat{\beta_1}$ and $SSE = e'e$.
+
+_Proof:_
+The residual of $Y$ in the regression on $X_2$ is obtained by 
+pre-multiplying $Y$ by 
+$$Q_2 = I - P_2 = I - X_2(X_2'X_2)^{-1}X_2'$$
+and similarly for $X_1$. We obtain
+$$Q_2 Y = Q_2X_1 \hat{\beta_1} + Q_2X_2 \hat{\beta_2} + Q_2 e$$
+Now, $Q_2X_2 = 0$, so that  $Q_2X_2\hat{\beta_2} =0$. Also, since $e \perp X_2$ it follows that $Q_2 e =e$. Thus
+$$Q_2 Y = Q_2X_1 \hat{\beta_1} + 0 + e$$
+Moreover, $e'Q_2X_1\hat{\beta}_2 = e'X_1\hat{\beta}_2 = 0'\hat{\beta}_2 = 0$ so that,
+by the Projection Theorem, $\hat{\beta_1}$ is the regression coefficient of 
+$Q_2 Y$ on $Q_2X_1$ and has $SSE = e'e$. _QED_
+
+Finally we show that, the partial coefficient for the regression of $Y$
+on $X_1$ adjusting for $X_2$ is the same as the partial coefficient for the regression of $Y$
+on $X_1$ adjusting for the predictor of $X_1$ based on $X_2$, i.e. 
+$P_2 X_1 = X_2(X_2'X_2)^{-1}X_2'X_1$. However, the $SSE$ of this regresion is larger than
+that of the full multiple regression which is equal to that of the AVP regression.
+
+__Theorem:__  Consider the regression of $Y$ on two blocks of predictors given by full column
+rank matrices $X_1$ and $X_2$, where, moreover, the partitioned matrix, $[X_1 X_2]$ is of full rank.
+Suppose 
+$$ Y = X_1 \hat{\beta_1} + X_2 \hat{\beta_2} + e$$
+Consider, also, the regression of $Y$ on $X_1$ and the predicted value of $X_1$ based on $X_2$.
+
+Then the regression coefficients on $X_1$ are the same for both regressions. The $SSE$ for the 
+second regression is at least as large as that of the first regression and is equal to 
+$$ZZZ + e'e$$.
+
+_Proof:_ Observe that the predicted value of $X_1$ on $X_2$
+is $P_2 X_1$ where $P_2 = X_2(X_2' X_2)^{-1} X_2'$ so the resduals from the regression
+on $P_2 X_1$ are obtained by premultiplying by 
+$$\begin{aligned}
+Q &= I - P_2 X_1 (X_1'P_2'P_2 X_1)^{-1}X_1'P_2\\
+  &= I - P_2 X_1 (X_1'P_2 X_1)^{-1}X_1'P_2
+\end{aligned}$$
+added variable plot for the second regression is
+obtained by premultiplying by ....
+
+
+

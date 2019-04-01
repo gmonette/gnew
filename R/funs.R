@@ -356,12 +356,16 @@ ev <- function(...) {
 }
 
 #' @export
-summ <- function(x,...){
+summ <- function(x,...) UseMethods('summ')
+#' @export
+summ.lme <- function(x,...){
   # print lme summary without correlations
   ret <- summary(x,...)
   ret$corFixed <- matrix(1)
   ret
 }
+#' @export
+summ.default <- function(x,...) summary(x,...)
 #' @export
 
 L <- function(ww) {
