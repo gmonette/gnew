@@ -51,15 +51,33 @@ coding_function <- function(
 }
 
 if(FALSE) {
+  debug(coding_function)
   zd <- data.frame(x = 1:20, a = sample(letters[1:4], 20, replace = T))
   zd $y <- zd$x + rnorm(20)
   
   cm <- coding_function(zd$a)
   cm
+  environment(cm)$Emat
   cm(zd$a)
   summary(lm(y~cm(a), zd ))
   summary(lm(y~cm(a), zd ))
 }
-
+#' Weighted coding matrix
+#' 
+#' Produce factor coding function so that the intercept is a weighted sum
+#' of factor means using weights proportional to the frequency of 
+#' factor levels in a corpus independent of the data. This has the
+#' advantage of working consistently on different data sets.
+#' 
+#' @param x a factor used as the corpus
+#' 
+#' @export
+weighted_coding <- function(x) {
+  x <- as.factor(x)
+  freq <- table(x)
+  levs <- levels(x)
+  wts <- freq/sum(freq)
+  
+}
 
 
