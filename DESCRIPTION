@@ -1,7 +1,7 @@
 Package: gnew
 Title: New functions for spida2
-Version: 0.1
-Authors@R: person("Georges","Monette",email='georges.monette@gmail.com',
+Version: 0.1.0
+Authors@R: person("Georges","Monette",email='georges+gnew@yorku.ca',
                   role = c('aut','cre'))
 Description: New experimental functions
 Depends: R (>= 3.1.0)

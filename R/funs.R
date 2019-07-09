@@ -356,7 +356,7 @@ ev <- function(...) {
 }
 
 #' @export
-summ <- function(x,...) UseMethods('summ')
+summ <- function(x,...) UseMethod('summ')
 #' @export
 summ.lme <- function(x,...){
   # print lme summary without correlations
