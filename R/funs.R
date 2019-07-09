@@ -1,6 +1,4 @@
 # from Ali/funs.F
-#' @name tonum
-#' @aliases c2f
 #' 
 #' Turn character or facator to numeric
 #' 
@@ -36,6 +34,7 @@ f2c <- function(x) if(is.factor(x)) as.character(x) else x
 #' @param other name for 'other' category
 #' @param verbose default FALSE
 #' 
+#' @aliases gr
 #' @rdname tonum
 #' @export
 combine_small_categories <- function(x, nlevels = 3, other = "Other", verbose = FALSE, ...) {

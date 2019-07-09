@@ -1,0 +1,20 @@
+---
+title: "Test Vignettes using usethis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Test Vignettes using usethis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(gnew)
+```
+This is a test to see where this ends up.

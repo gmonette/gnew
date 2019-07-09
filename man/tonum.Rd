@@ -3,15 +3,10 @@
 \name{tonum}
 \alias{tonum}
 \alias{c2f}
-\alias{Turn}
-\alias{character}
-\alias{or}
-\alias{facator}
-\alias{to}
-\alias{numeric}
 \alias{f2c}
 \alias{combine_small_categories}
-\title{Character to factor}
+\alias{gr}
+\title{Turn character or facator to numeric}
 \usage{
 tonum(x)
 
@@ -47,6 +42,8 @@ factor(x)
 factor(x)
 }
 \description{
+Turn character or facator to numeric
+
 Character to factor
 
 Character to factor

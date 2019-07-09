@@ -10,6 +10,6 @@ Currently working on \pkg{gnew} to add
 functions \code{\link{getG}}, etc.
 }
 \author{
-\strong{Maintainer}: Georges Monette \email{georges.monette@gmail.com}
+\strong{Maintainer}: Georges Monette \email{georges+gnew@yorku.ca}
 
 }
