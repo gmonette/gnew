@@ -14,11 +14,10 @@ c2f(x, ...)
 
 f2c(x)
 
-combine_small_categories(x, nlevels = 3, other = "Other",
-  verbose = FALSE, ...)
+combine_small_categories(x, nlevels = 3, other = "Other", verbose = FALSE, ...)
 }
 \arguments{
-\item{x}{character or factor representing a numeric value}
+\item{x}{factor or character to be condensed}
 
 \item{...}{arguments to factor}
 
@@ -27,12 +26,6 @@ combine_small_categories(x, nlevels = 3, other = "Other",
 \item{other}{name for 'other' category}
 
 \item{verbose}{default FALSE}
-
-\item{x}{object to be turned into a factor if 'is.character' is true}
-
-\item{x}{object to be turned into a character if 'is.factor' is true}
-
-\item{x}{factor or character to be condensed}
 }
 \value{
 a numeric value represented by 'x', or NA

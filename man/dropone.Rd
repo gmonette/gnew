@@ -4,8 +4,13 @@
 \alias{dropone}
 \title{Drop one case or cluster}
 \usage{
-dropone(fit, form = NULL, FUN = if (inherits(fit, "lme")) fixef else
-  coef, data = getData(fit), ...)
+dropone(
+  fit,
+  form = NULL,
+  FUN = if (inherits(fit, "lme")) fixef else coef,
+  data = getData(fit),
+  ...
+)
 }
 \arguments{
 \item{fit}{a fitted model}

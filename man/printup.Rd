@@ -4,8 +4,15 @@
 \alias{printup}
 \title{Print a nested data frame}
 \usage{
-printup(dd, form, sortform = NULL, row.names = FALSE, right = FALSE,
-  sep = "======================================", ...)
+printup(
+  dd,
+  form,
+  sortform = NULL,
+  row.names = FALSE,
+  right = FALSE,
+  sep = "======================================",
+  ...
+)
 }
 \arguments{
 \item{dd}{a nested data frame}

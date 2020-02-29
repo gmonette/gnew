@@ -4,10 +4,15 @@
 \alias{coding_function}
 \title{General coding matrix for factors}
 \usage{
-coding_function(x, levs = levels(as.factor(x)), intercept = rbind(c(1,
-  rep(0, length(levs) - 1))), constraints = NULL,
+coding_function(
+  x,
+  levs = levels(as.factor(x)),
+  intercept = rbind(c(1, rep(0, length(levs) - 1))),
+  constraints = NULL,
   estimates = diag(length(levs))[-1, , drop = FALSE],
-  tolerance = 1e-16, debug = FALSE)
+  tolerance = 1e-16,
+  debug = FALSE
+)
 }
 \description{
 This function creates functions (closures) that implement a flexible coding

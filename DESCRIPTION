@@ -7,10 +7,11 @@ Description: New experimental functions
 Depends: R (>= 3.1.0)
 License: GNU GENERAL PUBLIC LICENSE, Version 3
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Encoding: UTF-8
 Imports: spida2,
-     nlme
+     nlme,
+     car
 Suggests: 
     knitr,
     rmarkdown,

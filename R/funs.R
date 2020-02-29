@@ -354,18 +354,7 @@ ev <- function(...) {
   eval(parse(text = paste(c(...), collapse = '')))
 }
 
-#' @export
-summ <- function(x,...) UseMethod('summ')
-#' @export
-summ.lme <- function(x,...){
-  # print lme summary without correlations
-  ret <- summary(x,...)
-  ret$corFixed <- matrix(1)
-  ret
-}
-#' @export
-summ.default <- function(x,...) summary(x,...)
-#' @export
+
 
 L <- function(ww) {
   ww[[1]]$L
