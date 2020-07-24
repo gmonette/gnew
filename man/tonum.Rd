@@ -6,7 +6,7 @@
 \alias{f2c}
 \alias{combine_small_categories}
 \alias{gr}
-\title{Turn character or facator to numeric}
+\title{Turn character or factor to numeric}
 \usage{
 tonum(x)
 
@@ -35,7 +35,7 @@ factor(x)
 factor(x)
 }
 \description{
-Turn character or facator to numeric
+Turn character or factor to numeric
 
 Character to factor
 

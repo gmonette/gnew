@@ -1,6 +1,6 @@
 # from Ali/funs.F
 #' 
-#' Turn character or facator to numeric
+#' Turn character or factor to numeric
 #' 
 #' @param x character or factor representing a numeric value
 #' 
@@ -363,4 +363,49 @@ L <- function(ww) {
 wald_diffs <- function(fit,L, ...) {
   L[[1]] <- rowdiffs(L(wald(fit, L)))
   wald(fit, L)
+}
+
+#
+#  xmerge -- highly rudimentary
+#
+
+xmerge <- function(a, b, by, FUN = pmax) {
+  require(spida2)
+  # THIS VERSION TREATS 0 AS SPECIAL AND ONLY WORKS IF ALL VARIABLES
+  # ARE NUMERICAL ... SO NEEDS A LOT OR WORK
+  # do a merge using all = TRUE except that .x and .y version of variables
+  # are combined to 'fill in NA'. If there's a conflict in non-missing values
+  # then the value in data set a is used and a warning generated in 
+  # variable with suffix .xy
+  # BUGS:
+  # NAs are turned to 0 so 2 NAs become FUN(0,0)
+  dm <- merge(a, b, by = by, suffixes = c('____a','____b'), all = T)
+  nams <- grepv('____',names(dm))
+  for(n in nams) {
+    dm[[n]] <- na20(dm[[n]])
+  }
+  roots <- unique(sub('____.*$','', nams))
+  for(n in roots) {
+    dm[[n]] <- 
+      FUN(
+        dm[[paste0(n,'____a')]],
+        dm[[paste0(n,'____b')]])
+  }
+  dm <- dm[, - grep('____',names(dm))]
+  dm
+}
+  
+# test xmerge
+if(FALSE) {
+  psum <- function(x,y) x + y
+  z1 <- data.frame(id = c(1,2,4,5,6),
+                   name = letters[1:5],
+                   v1 = c(1,2,NA,NA,NA), 
+                   v2 = c(1,2,3,NA,NA),
+                   v3 = c(3,4,NA,3,4))
+  z2 <- data.frame(id = c(0,2,4,5,6), 
+                   v1 = c(1,2,NA,NA,2), 
+                   v2 = c(NA,2,3,NA,4),
+                   v4 = c(3,4,NA,3,4))
+  xmerge(z1,z2, by = 'id')
 }
