@@ -4,8 +4,6 @@
 \alias{tonum}
 \alias{c2f}
 \alias{f2c}
-\alias{combine_small_categories}
-\alias{gr}
 \title{Turn character or factor to numeric}
 \usage{
 tonum(x)
@@ -13,19 +11,11 @@ tonum(x)
 c2f(x, ...)
 
 f2c(x)
-
-combine_small_categories(x, nlevels = 3, other = "Other", verbose = FALSE, ...)
 }
 \arguments{
-\item{x}{factor or character to be condensed}
+\item{x}{object to be turned into a character if 'is.factor' is true}
 
 \item{...}{arguments to factor}
-
-\item{nlevels}{number of levels to keep}
-
-\item{other}{name for 'other' category}
-
-\item{verbose}{default FALSE}
 }
 \value{
 a numeric value represented by 'x', or NA
@@ -40,6 +30,4 @@ Turn character or factor to numeric
 Character to factor
 
 Character to factor
-
-Combine small categories
 }

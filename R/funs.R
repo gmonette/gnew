@@ -56,7 +56,6 @@ f2c <- function(x) if(is.factor(x)) as.character(x) else x
 #' @param verbose default FALSE
 #' 
 #' @aliases gr
-#' @rdname tonum
 #' @export
 combine_small_categories <- function(x, nlevels = 3, other = "Other", verbose = FALSE, ...) {
   if(is.numeric(x)) return(x)
@@ -69,8 +68,22 @@ combine_small_categories <- function(x, nlevels = 3, other = "Other", verbose = 
   if(verbose) print(data.frame(from = from, to = to, n = c(tt)))
   spida2::tran(from, to, x)
 }
-#'
 gr <- combine_small_categories
+#' @describeIn combine_small_categories later categories
+#' @export
+combine_later_categories <-
+  function(x, nlevels = 3, other = "Other", verbose = FALSE, ...) {
+    if(is.numeric(x)) return(x)
+    tt <- table(x)
+    if(length(tt) < nlevels + 1) return (x)
+    from <- names(tt)
+    to <- names(tt)
+    to[(nlevels):(length(to))] <- other
+    if(verbose) print(data.frame(from = from, to = to, n = c(tt)))
+    spida2::tran(from, to, x)
+  }
+
+# gr <- combine_small_categories
 
 if(FALSE) {
   z <- rep(letters[1:4], c(5,5,3,1))
