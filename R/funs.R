@@ -1,3 +1,24 @@
+# from UTFA common.R
+#' Order a factor using the frequency of levels
+#' 
+#' @param x a vector: numerical, character, factor, etc.
+#' 
+#' @return a factor with levels ordered by frequency (largest first)
+#' @examples
+#'   zf <- letters[c(1,1,2,2,2,3,2,4,5,6)]
+#' zf
+#' table(zf)
+#' zo <- order_by_freq(zf)
+#' zo
+#' table(zo)
+#' attributes(zo)
+#' @export
+order_by_freq <- function(x, order = is.ordered(x)){
+  x <- as.factor(x)
+  ns <- - spida2::capply(x, x, length)
+  stats:::reorder.default(x, ns, order = order)
+} 
+#
 # from Ali/funs.F
 #' 
 #' Turn character or factor to numeric
