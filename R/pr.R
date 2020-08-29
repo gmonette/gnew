@@ -94,6 +94,7 @@ list_array <- function(a, MARGIN) {
   labs <- do.call(expand.grid, heads)
   # disp(labs)
   # pad
+  labs <- labs[rev(1:ncol(labs))]
   maxlen <- max(nchar(names(labs)))
   pad <- lapply(maxlen - nchar(names(labs)), function(iter) paste0(rep('_', iter), collapse = ''))
   names(labs) <- paste0(pad, names(labs) )
@@ -115,4 +116,34 @@ print.list_array <- function(x,...) {
   }
   invisible(x)
 }
-
+#' Use kableExtra::kbl to print an array. 
+#' 
+#' Requires version 1.2.0 or later of kableExtra
+#' from devtools::install_github("haozhu233/kableExtra")
+#' 
+#' See https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf. 
+#' The output can be postprocessed with other function in kableExtra.
+#' 
+#' @param a array
+#' @param MARGIN a vector of dimension along which the array will be collapse
+#' @examples
+#' \dontrun{
+#' kbl_array(Titanic, 3:4, longtable = T)
+#' }
+#' @export
+kbl_array <- function(a, MARGIN, ...) {
+  library(kableExtra)
+  larr <- list_array(a, MARGIN)
+  mat <- do.call(rbind, larr)
+  narr <- sapply(larr, nrow)
+  nend <- cumsum(narr)
+  nr <- narr[1]
+  nstart <- nend - nr + 1
+  
+  ret <- kableExtra::kbl(mat,...)
+  for( i in seq_along(narr)){
+    ret <- kableExtra::group_rows(ret, names(larr)[i], start_row = nstart[i], end_row = nend[i]) 
+  }
+  ret <- kableExtra::kable_styling(ret)
+  ret
+}
