@@ -147,3 +147,16 @@ kbl_array <- function(a, MARGIN, ...) {
   ret <- kableExtra::kable_styling(ret)
   ret
 }
+
+if(FALSE){
+  library(gnew)
+  library(kableExtra)
+  a <- Titanic
+  list_array(a, 4)  
+  list_array(a, 4)  %>% pr
+  list_array(a, 3:4)  
+  list_array(a, 3:4)  %>% pr
+  kbl_array(tab(a),2:3)
+  kbl_array(tab(a, pct =1 ),2:3)
+  
+}
