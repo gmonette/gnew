@@ -1,4 +1,7 @@
 # new
+ToDo:
+   * finish kbl_array to print names of dimnames when they exist, and not
+     when they don't
 Candidates for spida2
 2020_08_23:
     * added array printing: pr generic with method pr.array
