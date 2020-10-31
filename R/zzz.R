@@ -1,4 +1,4 @@
-.onLoad <- function(libname, pkgname) {
+._onLoad <- function(libname, pkgname) {
   # install these from github, not CRAN:
   cat('\nRunning .onLoad\n')
   zzz <- 'was run'

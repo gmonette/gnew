@@ -1,10 +1,21 @@
 #' Create excel file from Zoom chat file
 #' 
-#' Excel file allows sorting by poster so all submissions 
-#' are contiguous and in time order
+#' Reads a Zoom "chat.txt" file (recorded portion of meeting)
+#' or a "meeting_saved_chat.txt" file (entire meeting)
+#' and writes a '.xlsx' Excel file in which lines are sorted by
+#' participant and by time.
 #' 
-#' @param file chat file
+#' When a participant submits a chat message in multiple lines, the subsequent
+#' lines may not be identified with the name of the participant, or they
+#' may be separated by other chat submissions from other participants.
+#' \code{chat2xl} resolves these problems and creates a file in which all
+#' submissions are labelled with the identifier of the participant and
+#' and ordered by participant and by time. When viewed, the excel file can be reordered
+#' by time if desired.
+#' 
+#' @param file chat file, usually "chat.txt" or "meeting_saved_chat.txt"
 #' @param outfile default 'file' with '.txt' suffix replaced with .xlsx
+#' @param overwrite will an existing ".xlsx" file be overwritten, default FALSE
 #' @export
 chat2xl <- function(file, outfile = NULL, overwrite = FALSE) {
   library(spida2)
@@ -27,6 +38,7 @@ chat2xl <- function(file, outfile = NULL, overwrite = FALSE) {
     do.call(rbind, .) %>% 
     as.data.frame -> z
   names(z) <- c('time','who','what')
+  z <- sortdf(z, ~ who / time)
   write.xlsx(z, file = outfile, overwrite = overwrite, asTable = T)
   invisible(z)
 }
