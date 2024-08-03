@@ -21,7 +21,7 @@ Turn an array into a list of smaller arrays sectioning along a margin
 a <- Titanic
 library(spida2)
 tab(a)
-tab(aperm(a,c(2,4,1,3))
+tab(aperm(a,c(2,4,1,3)))
 tab(aperm(a,c(2,4,1,3)), pct = c(1,3,4))
 round(tab(aperm(a,c(2,4,1,3)), pct = c(1,3,4)),1)
 list_array(round(tab(aperm(a,c(2,4,1,3)), pct = c(1,3,4)),1),3:4)

@@ -53,15 +53,18 @@ rnd <- function(x,...) {
 ## Factor utilities ------
 ##
 
+#' @export
 nuniq <- function(x) {
   length(unique(x))
 }
-
+#' @export
 na2na <- function(x, replace , ...) UseMethod('na2na')
+#' @exportS3Method
 na2na.default <- function(x, replace= "No Answer", ... ) {
   x[is.na(x)] <- replace
   x
 }
+#' @exportS3Method
 na2na.factor <- function(x, replace= "No Answer", ...) {
   levs <- levels(x)
   x <- as.character(x)

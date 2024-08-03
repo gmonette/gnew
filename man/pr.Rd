@@ -25,13 +25,13 @@ Alternative printing for special purposes
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: default method
+\item \code{pr(default)}: default method
 
-\item \code{array}: array method
+\item \code{pr(array)}: array method
 
-\item \code{table}: table method
+\item \code{pr(table)}: table method
+
 }}
-
 \examples{
 pr(Titanic)
 }

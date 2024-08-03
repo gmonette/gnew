@@ -237,7 +237,7 @@ solve.pdInd <-
     #    attributes(ret) <- attributes(a)
     #    ret
   }
-
+#' @exportS3Method
 coef.pdInd <-
 function (object, unconstrained = TRUE, ...) 
 {

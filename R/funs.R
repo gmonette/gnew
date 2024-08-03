@@ -142,8 +142,9 @@ function (x, sortby = "variable",
           bot = 6, mar = c(bot, 1, 1.5, 1), 
           adj = c(0, -0.1), xpd = TRUE, srt = -60, cex = 0.8, 
           main = 'Missing Value Patterns',
-          ...) 
-{
+          ...) {
+  
+  x <- droplists(x)
   x1 <- as.numeric(apply(x, 2, function(x) length(which(is.na(x)))))
   x1 <- c(x1, nrow(x))
   z1 <- ifelse(is.na(x), 0, 1)

@@ -1,1 +1,11 @@
-- 2022_07_07: added render_this
+
+## 0.1.1 (2024-08-03)
+
+- tablemissing: drops lists
+- droplists: removes variables that are lists from data frames
+
+- as.data.frame_ with method as.data.frame_.list to handle list with list elements
+
+## 2022_07_07 
+
+- added render_this

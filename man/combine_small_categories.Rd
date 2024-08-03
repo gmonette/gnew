@@ -24,6 +24,6 @@ Combine small categories
 }
 \section{Functions}{
 \itemize{
-\item \code{combine_later_categories}: later categories
-}}
+\item \code{combine_later_categories()}: later categories
 
+}}
